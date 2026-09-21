@@ -76,7 +76,12 @@ cross-compile (darwin/arm64)
 
 ### Code security
 
-- **Dependency graph**：必须**最先**开启。它**没有 REST API**，只能网页端点；没开的话 `dependency-review.yml` 会在每个 PR 上失败，报 "Dependency review is not supported on this repository"。
+- **Dependency graph**：必须**最先**开启。公开仓库默认开启；但**由私有改为公开时不会自动补上**，此时用
+  `gh api --method PATCH repos/{owner}/{repo} -f security_and_analysis[dependency_graph][status]=enabled`
+  即可（`dependency_graph` 不在官方 PATCH schema 文档里，实测却生效；`PUT /vulnerability-alerts` 也会一并开启）。
+  判定方法：`GET /repos/{owner}/{repo}/dependency-graph/compare/{base}...{head}` 返回 **403** 表示未开启，
+  返回 **200 + `[]`** 表示正常。没开的话 `dependency-review.yml` 会在每个 PR 上失败，报
+  "Dependency review is not supported on this repository"。
 - **Dependabot security updates**：与 `dependabot.yml` 配置的版本更新是**两个独立开关**。
 - **Secret scanning + push protection**：公开仓库免费。（`non-provider patterns` 和 `validity checks` 属于付费的 GitHub Secret Protection，公开仓库免费额度不含这两项。）
 - **Private vulnerability reporting**：必须开——`SECURITY.md` 里就是让报告者走这条路。
