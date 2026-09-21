@@ -106,12 +106,21 @@ func downloadImage(ctx context.Context, rawURL, referer string) ([]byte, string,
 		return nil, "", fmt.Errorf("image exceeds the %d byte cap", maxImageBytes)
 	}
 
-	contentType := strings.TrimSpace(strings.Split(resp.Header.Get("Content-Type"), ";")[0])
-	if contentType == "" || contentType == "application/octet-stream" {
-		contentType = http.DetectContentType(data)
-	}
+	// The bytes are authoritative, not the upstream header.
+	//
+	// The NetEase image host labels PNG bodies as "image/jpg", so trusting its
+	// header makes a client write a .jpg full of PNG data. Sniffing costs
+	// nothing (DetectContentType reads at most 512 bytes) and cannot lie.
+	contentType := http.DetectContentType(data)
 	if !strings.HasPrefix(contentType, "image/") {
-		return nil, "", fmt.Errorf("upstream returned %q, not an image", contentType)
+		// Sniffing only recognises the common web formats. Fall back to the
+		// declared type for anything else, and reject it if that is not an
+		// image either.
+		declared := strings.TrimSpace(strings.Split(resp.Header.Get("Content-Type"), ";")[0])
+		if !strings.HasPrefix(declared, "image/") {
+			return nil, "", fmt.Errorf("upstream returned %q, not an image", declared)
+		}
+		contentType = declared
 	}
 	return data, contentType, nil
 }
