@@ -1,0 +1,22 @@
+# Normalize line endings and keep diffs honest across platforms.
+* text=auto eol=lf
+
+# Windows-only files keep CRLF if any are ever added.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+*.go   text diff=golang
+*.md   text
+*.yml  text
+*.yaml text
+*.json text
+
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.db  binary
+
+# Generated files are collapsed in diffs and excluded from language stats.
+go.sum      text -diff linguist-generated

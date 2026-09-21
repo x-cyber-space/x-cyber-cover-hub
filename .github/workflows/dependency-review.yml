@@ -1,0 +1,28 @@
+name: Dependency review
+
+# Runs on pull requests only: it compares the dependency graph before and after
+# the change, which is exactly when a bad dependency can still be kept out.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    name: review dependency changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write # post the summary on the pull request
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
+        with:
+          # Fail the pull request rather than only warning.
+          fail-on-severity: moderate
+          # No license allow/deny list on purpose: this project is AGPL-3.0,
+          # which is compatible with GPL-3.0, so blanket-denying copyleft would
+          # reject dependencies that are actually fine here.

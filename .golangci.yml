@@ -1,0 +1,39 @@
+# golangci-lint configuration (v2 schema).
+#
+# Run with `make lint`. This is intentionally close to the default linter set:
+# the value here is catching real mistakes, not accumulating opinionated style
+# rules that fight the existing code.
+version: "2"
+
+run:
+  timeout: 3m
+
+linters:
+  default: standard
+  enable:
+    # Catches a leaked HTTP response body, which is easy to introduce in the
+    # provider adapters.
+    - bodyclose
+    # Catches == comparisons on wrapped errors; the matcher and store both
+    # branch on error identity.
+    - errorlint
+    - misspell
+    - unconvert
+
+  exclusions:
+    # Ignoring the error from Close/RemoveAll on a response body, a database
+    # handle or a temp dir is the documented Go idiom, and flagging it trains
+    # people to ignore the linter.
+    presets:
+      - std-error-handling
+    rules:
+      # Table-driven tests compare many near-identical shapes; duplicate code
+      # there is a feature, not a smell.
+      - path: _test\.go
+        linters:
+          - dupl
+
+formatters:
+  enable:
+    - gofmt
+    - goimports

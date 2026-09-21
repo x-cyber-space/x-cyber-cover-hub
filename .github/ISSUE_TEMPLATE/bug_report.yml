@@ -1,0 +1,67 @@
+name: 缺陷报告
+description: 有东西坏了，或行为不符合预期
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        提交之前请先看一眼 `docs/SPEC.md` 的「已知边界」一节 ——
+        有些行为（例如不校验实际图片尺寸）是**有意如此**，不是缺陷。
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 实际发生了什么
+      description: 同时说一下你原本期望的结果。
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      description: |
+        如果是接口问题，把那条请求原样贴出来是最有用的信息。
+      placeholder: |
+        curl -sS "http://localhost:3400/api/cover?artist_name=...&album_name=..." -o out.jpg -D -
+    validations:
+      required: true
+
+  - type: textarea
+    id: response
+    attributes:
+      label: 实际响应
+      description: 请包含状态码与响应体，以及相关的日志行。
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 版本
+      description: 启动 banner 里的版本号，或 release 标签。
+      placeholder: v1.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: 运行环境
+      description: 操作系统/架构，以及运行方式（二进制、Docker、NAS 套件）。
+      placeholder: Debian 12 / amd64，Docker
+    validations:
+      required: true
+
+  - type: dropdown
+    id: client
+    attributes:
+      label: 是哪个客户端发起的请求？
+      options:
+        - 音乐播放器（Symfonium、ZZMusicPlayer 等）
+        - curl / 手工请求
+        - 我自己写的程序
+        - 其他
+    validations:
+      required: true

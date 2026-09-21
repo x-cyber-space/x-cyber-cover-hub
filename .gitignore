@@ -1,0 +1,39 @@
+# Build output
+/bin/
+/dist/
+/x-cyber-lrc-hub
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Runtime data: the SQLite cover cache
+/data/
+*.db
+*.db-wal
+*.db-shm
+
+# Test and coverage artifacts
+*.test
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+
+# Local caches
+/.workcache/
+/.lintcache/
+/.evalcache/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Local environment
+.env
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store

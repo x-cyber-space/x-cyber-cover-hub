@@ -1,0 +1,35 @@
+name: 功能建议
+description: 提议一个新能力或行为变更
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你遇到的问题
+      description: 你想做什么，而项目现在让它很难做到？
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议的方案
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 考虑过的其他方案
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: 项目约束
+      description: |
+        下面几条是**承重的设计决策**，不是偏好。如果你的方案需要放宽其中
+        某一条，请在正文里明确说明。
+      options:
+        - label: 不依赖任何外部模型或在线服务。
+        - label: 让 `/api/cover` 保持硬过滤，而不是返回搜索结果第一条。
+        - label: 不引入任何需要 API key 或账号的上游源。
