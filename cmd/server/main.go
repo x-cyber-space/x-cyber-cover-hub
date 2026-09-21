@@ -28,13 +28,20 @@ var version = "1.0.0"
 // lowercase remainder as literal text, so "Cyber" is a capital C plus "y b e r"
 // and "Cover" is a capital C plus "o v e r". Spelling the product word with
 // capital glyphs instead would both break that convention and push the artwork
-// past 80 columns. Keep the styles in README.md and here identical.
+// past 80 columns.
+//
+// Judge the gaps by the top row, not the baseline: the next word's capital is
+// already visible up there, so the space that follows a lowercase word reads as
+// a hole even though it looks fine lower down. That is why "o v e r" sits one
+// column from the H.
+//
+// Keep the styles in README.md and here identical.
 const bannerArt = `
-__  __   ____ y b e r   ____  o v e r    _   _       _     
-\ \/ /  / ___|         / ___|           | | | | _   | |__  
- \  /  | |      _____ | |               | |_| || |  | '_ \ 
- /  \  | |___  |_____|| |___            |  _  || |_ | |_) |
-/_/\_\  \____|         \____|           |_| |_| \___||_.__/ 
+__  __   ____ y b e r   ____ o v e r _   _       _     
+\ \/ /  / ___|         / ___|       | | | | _   | |__  
+ \  /  | |      _____ | |           | |_| || |  | '_ \ 
+ /  \  | |___  |_____|| |___        |  _  || |_ | |_) |
+/_/\_\  \____|         \____|       |_| |_| \___||_.__/
 `
 
 func banner() string {
