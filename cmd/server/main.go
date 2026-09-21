@@ -35,13 +35,18 @@ var version = "1.0.0"
 // a hole even though it looks fine lower down. That is why "o v e r" sits one
 // column from the H.
 //
-// Keep the styles in README.md and here identical.
+// The hyphen and the capital after it need a full blank column between their
+// glyph boxes, the same as in x-cyber-lrc-hub. They are easy to fuse by
+// accident because the hyphen's box ends on a different row than the letters.
+//
+// Keep the styles in README.md and here identical; TestBannerArtMatchesREADME
+// enforces that.
 const bannerArt = `
-__  __   ____ y b e r   ____ o v e r _   _       _     
-\ \/ /  / ___|         / ___|       | | | | _   | |__  
- \  /  | |      _____ | |           | |_| || |  | '_ \ 
- /  \  | |___  |_____|| |___        |  _  || |_ | |_) |
-/_/\_\  \____|         \____|       |_| |_| \___||_.__/
+__  __   ____ y b e r    ____ o v e r _   _       _     
+\ \/ /  / ___|          / ___|       | | | | _   | |__  
+ \  /  | |      _____  | |           | |_| || |  | '_ \ 
+ /  \  | |___  |_____| | |___        |  _  || |_ | |_) |
+/_/\_\  \____|          \____|       |_| |_| \___||_.__/
 `
 
 func banner() string {
