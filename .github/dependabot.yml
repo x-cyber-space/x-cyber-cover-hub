@@ -28,6 +28,16 @@ updates:
       day: monday
     commit-message:
       prefix: "chore(ci)"
+    groups:
+      # CodeQL 的 init / autobuild / analyze / upload-sarif 必须**同版本**。
+      # Dependabot 默认按子路径把每个 action 当成独立依赖，于是会开出只升
+      # autobuild 的 PR；那必然失败在：
+      #   Loaded a configuration file for version '3.38.0',
+      #   but running version '4.38.1'
+      # 成组之后四个子路径只会出现在同一个 PR 里。
+      codeql-action:
+        patterns:
+          - "github/codeql-action/*"
 
   # Base images in the Dockerfile
   - package-ecosystem: docker
